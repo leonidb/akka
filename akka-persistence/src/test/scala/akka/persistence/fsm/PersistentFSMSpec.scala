@@ -307,7 +307,7 @@ abstract class PersistentFSMSpec(config: Config) extends PersistenceSpec(config)
       fsmRef ! PoisonPill
       expectTerminated(fsmRef)
 
-      //Check  that Persistent FSM recovers in the correct state
+      //Check that PersistentFSM recovers in the correct state
       val recoveredFsmRef = system.actorOf(WebStoreCustomerFSM.props(persistenceId, dummyReportActorRef))
       recoveredFsmRef ! GetCurrentCart
       expectMsg(NonEmptyShoppingCart(List(shirt, shoes, coat)))
@@ -316,7 +316,7 @@ abstract class PersistentFSMSpec(config: Config) extends PersistenceSpec(config)
       recoveredFsmRef ! PoisonPill
       expectTerminated(recoveredFsmRef)
 
-      //Check that the Persistent FSM recovery uses snapshot
+      //Check that PersistentFSM uses snapshot during recovery
       val persistentEventsStreamer = system.actorOf(PersistentEventsStreamer.props(persistenceId, testActor))
 
       expectMsgPF() {

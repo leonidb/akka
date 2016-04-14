@@ -70,7 +70,7 @@ trait PersistentFSM[S <: FSMState, D, E] extends PersistentActor with Persistent
   /**
     * Save the current state as a snapshot
     */
-  final def saveFsmSnapshot(): Unit = {
+  final def saveStateSnapshot(): Unit = {
     saveSnapshot(PersistentFSMSnapshot(stateName.identifier, stateData, currentStateTimeout))
   }
 
