@@ -431,14 +431,14 @@ object PersistentFSMSpec {
         goto(Paid) applying OrderExecuted andThen {
           case NonEmptyShoppingCart(items) ⇒
             reportActor ! PurchaseWasMade(items)
-            saveFsmSnapshot()
-          case EmptyShoppingCart ⇒ saveFsmSnapshot()
+            saveStateSnapshot()
+          case EmptyShoppingCart ⇒ saveStateSnapshot()
         }
       case Event(Leave, _) ⇒
         stop applying OrderDiscarded andThen {
           case _ ⇒
             reportActor ! ShoppingCardDiscarded
-            saveFsmSnapshot()
+            saveStateSnapshot()
         }
       case Event(GetCurrentCart, data) ⇒
         stay replying data
