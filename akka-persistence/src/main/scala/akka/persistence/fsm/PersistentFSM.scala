@@ -148,14 +148,13 @@ object PersistentFSM {
 
   /**
     * FSM state and data snapshot
-    * todo: extend Message and implement Protobuf serialization
     *
     * @param stateIdentifier FSM state identifier
     * @param data FSM state data
     * @param timeout FSM state timeout
     * @tparam D state data type
     */
-  private[persistence] case class PersistentFSMSnapshot[D](stateIdentifier: String, data: D, timeout: Option[FiniteDuration]) extends Serializable
+  private[persistence] case class PersistentFSMSnapshot[D](stateIdentifier: String, data: D, timeout: Option[FiniteDuration]) extends Message
 
   /**
    * FSMState base trait, makes possible for simple default serialization by conversion to String

@@ -45,3 +45,9 @@ message PersistentStateChangeEvent {
   required string stateIdentifier = 1;
   optional string timeout = 2;
 }
+
+message PersistentFSMSnapshot {
+  required string stateIdentifier = 1;
+  required PersistentPayload data = 2;
+  optional string timeout = 3;
+}
