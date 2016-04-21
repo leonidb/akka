@@ -4293,6 +4293,16 @@ public final class MessageFormats {
      */
     akka.protobuf.ByteString
         getTimeoutBytes();
+
+    // optional int64 timeoutNanos = 3;
+    /**
+     * <code>optional int64 timeoutNanos = 3;</code>
+     */
+    boolean hasTimeoutNanos();
+    /**
+     * <code>optional int64 timeoutNanos = 3;</code>
+     */
+    long getTimeoutNanos();
   }
   /**
    * Protobuf type {@code PersistentStateChangeEvent}
@@ -4353,6 +4363,11 @@ public final class MessageFormats {
             case 18: {
               bitField0_ |= 0x00000002;
               timeout_ = input.readBytes();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              timeoutNanos_ = input.readInt64();
               break;
             }
           }
@@ -4481,9 +4496,26 @@ public final class MessageFormats {
       }
     }
 
+    // optional int64 timeoutNanos = 3;
+    public static final int TIMEOUTNANOS_FIELD_NUMBER = 3;
+    private long timeoutNanos_;
+    /**
+     * <code>optional int64 timeoutNanos = 3;</code>
+     */
+    public boolean hasTimeoutNanos() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int64 timeoutNanos = 3;</code>
+     */
+    public long getTimeoutNanos() {
+      return timeoutNanos_;
+    }
+
     private void initFields() {
       stateIdentifier_ = "";
       timeout_ = "";
+      timeoutNanos_ = 0L;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4507,6 +4539,9 @@ public final class MessageFormats {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(2, getTimeoutBytes());
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt64(3, timeoutNanos_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -4523,6 +4558,10 @@ public final class MessageFormats {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += akka.protobuf.CodedOutputStream
           .computeBytesSize(2, getTimeoutBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += akka.protobuf.CodedOutputStream
+          .computeInt64Size(3, timeoutNanos_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4644,6 +4683,8 @@ public final class MessageFormats {
         bitField0_ = (bitField0_ & ~0x00000001);
         timeout_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
+        timeoutNanos_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -4680,6 +4721,10 @@ public final class MessageFormats {
           to_bitField0_ |= 0x00000002;
         }
         result.timeout_ = timeout_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.timeoutNanos_ = timeoutNanos_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4705,6 +4750,9 @@ public final class MessageFormats {
           bitField0_ |= 0x00000002;
           timeout_ = other.timeout_;
           onChanged();
+        }
+        if (other.hasTimeoutNanos()) {
+          setTimeoutNanos(other.getTimeoutNanos());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -4885,6 +4933,39 @@ public final class MessageFormats {
         return this;
       }
 
+      // optional int64 timeoutNanos = 3;
+      private long timeoutNanos_ ;
+      /**
+       * <code>optional int64 timeoutNanos = 3;</code>
+       */
+      public boolean hasTimeoutNanos() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int64 timeoutNanos = 3;</code>
+       */
+      public long getTimeoutNanos() {
+        return timeoutNanos_;
+      }
+      /**
+       * <code>optional int64 timeoutNanos = 3;</code>
+       */
+      public Builder setTimeoutNanos(long value) {
+        bitField0_ |= 0x00000004;
+        timeoutNanos_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 timeoutNanos = 3;</code>
+       */
+      public Builder clearTimeoutNanos() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        timeoutNanos_ = 0L;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:PersistentStateChangeEvent)
     }
 
@@ -4928,25 +5009,20 @@ public final class MessageFormats {
      */
     akka.persistence.serialization.MessageFormats.PersistentPayloadOrBuilder getDataOrBuilder();
 
-    // optional string timeout = 3;
+    // optional int64 timeoutNanos = 3;
     /**
-     * <code>optional string timeout = 3;</code>
+     * <code>optional int64 timeoutNanos = 3;</code>
      */
-    boolean hasTimeout();
+    boolean hasTimeoutNanos();
     /**
-     * <code>optional string timeout = 3;</code>
+     * <code>optional int64 timeoutNanos = 3;</code>
      */
-    java.lang.String getTimeout();
-    /**
-     * <code>optional string timeout = 3;</code>
-     */
-    akka.protobuf.ByteString
-        getTimeoutBytes();
+    long getTimeoutNanos();
   }
   /**
    * Protobuf type {@code PersistentFSMSnapshot}
    */
-  public static final class     PersistentFSMSnapshot extends
+  public static final class PersistentFSMSnapshot extends
       akka.protobuf.GeneratedMessage
       implements PersistentFSMSnapshotOrBuilder {
     // Use PersistentFSMSnapshot.newBuilder() to construct.
@@ -5012,9 +5088,9 @@ public final class MessageFormats {
               bitField0_ |= 0x00000002;
               break;
             }
-            case 26: {
+            case 24: {
               bitField0_ |= 0x00000004;
-              timeout_ = input.readBytes();
+              timeoutNanos_ = input.readInt64();
               break;
             }
           }
@@ -5122,53 +5198,26 @@ public final class MessageFormats {
       return data_;
     }
 
-    // optional string timeout = 3;
-    public static final int TIMEOUT_FIELD_NUMBER = 3;
-    private java.lang.Object timeout_;
+    // optional int64 timeoutNanos = 3;
+    public static final int TIMEOUTNANOS_FIELD_NUMBER = 3;
+    private long timeoutNanos_;
     /**
-     * <code>optional string timeout = 3;</code>
+     * <code>optional int64 timeoutNanos = 3;</code>
      */
-    public boolean hasTimeout() {
+    public boolean hasTimeoutNanos() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional string timeout = 3;</code>
+     * <code>optional int64 timeoutNanos = 3;</code>
      */
-    public java.lang.String getTimeout() {
-      java.lang.Object ref = timeout_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        akka.protobuf.ByteString bs = 
-            (akka.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          timeout_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string timeout = 3;</code>
-     */
-    public akka.protobuf.ByteString
-        getTimeoutBytes() {
-      java.lang.Object ref = timeout_;
-      if (ref instanceof java.lang.String) {
-        akka.protobuf.ByteString b = 
-            akka.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        timeout_ = b;
-        return b;
-      } else {
-        return (akka.protobuf.ByteString) ref;
-      }
+    public long getTimeoutNanos() {
+      return timeoutNanos_;
     }
 
     private void initFields() {
       stateIdentifier_ = "";
       data_ = akka.persistence.serialization.MessageFormats.PersistentPayload.getDefaultInstance();
-      timeout_ = "";
+      timeoutNanos_ = 0L;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -5201,7 +5250,7 @@ public final class MessageFormats {
         output.writeMessage(2, data_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, getTimeoutBytes());
+        output.writeInt64(3, timeoutNanos_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -5222,7 +5271,7 @@ public final class MessageFormats {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += akka.protobuf.CodedOutputStream
-          .computeBytesSize(3, getTimeoutBytes());
+          .computeInt64Size(3, timeoutNanos_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5349,7 +5398,7 @@ public final class MessageFormats {
           dataBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000002);
-        timeout_ = "";
+        timeoutNanos_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
@@ -5394,7 +5443,7 @@ public final class MessageFormats {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.timeout_ = timeout_;
+        result.timeoutNanos_ = timeoutNanos_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5419,10 +5468,8 @@ public final class MessageFormats {
         if (other.hasData()) {
           mergeData(other.getData());
         }
-        if (other.hasTimeout()) {
-          bitField0_ |= 0x00000004;
-          timeout_ = other.timeout_;
-          onChanged();
+        if (other.hasTimeoutNanos()) {
+          setTimeoutNanos(other.getTimeoutNanos());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -5654,76 +5701,35 @@ public final class MessageFormats {
         return dataBuilder_;
       }
 
-      // optional string timeout = 3;
-      private java.lang.Object timeout_ = "";
+      // optional int64 timeoutNanos = 3;
+      private long timeoutNanos_ ;
       /**
-       * <code>optional string timeout = 3;</code>
+       * <code>optional int64 timeoutNanos = 3;</code>
        */
-      public boolean hasTimeout() {
+      public boolean hasTimeoutNanos() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional string timeout = 3;</code>
+       * <code>optional int64 timeoutNanos = 3;</code>
        */
-      public java.lang.String getTimeout() {
-        java.lang.Object ref = timeout_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((akka.protobuf.ByteString) ref)
-              .toStringUtf8();
-          timeout_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public long getTimeoutNanos() {
+        return timeoutNanos_;
       }
       /**
-       * <code>optional string timeout = 3;</code>
+       * <code>optional int64 timeoutNanos = 3;</code>
        */
-      public akka.protobuf.ByteString
-          getTimeoutBytes() {
-        java.lang.Object ref = timeout_;
-        if (ref instanceof String) {
-          akka.protobuf.ByteString b = 
-              akka.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          timeout_ = b;
-          return b;
-        } else {
-          return (akka.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string timeout = 3;</code>
-       */
-      public Builder setTimeout(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        timeout_ = value;
+      public Builder setTimeoutNanos(long value) {
+        bitField0_ |= 0x00000004;
+        timeoutNanos_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string timeout = 3;</code>
+       * <code>optional int64 timeoutNanos = 3;</code>
        */
-      public Builder clearTimeout() {
+      public Builder clearTimeoutNanos() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        timeout_ = getDefaultInstance().getTimeout();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string timeout = 3;</code>
-       */
-      public Builder setTimeoutBytes(
-          akka.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        timeout_ = value;
+        timeoutNanos_ = 0L;
         onChanged();
         return this;
       }
@@ -5797,12 +5803,13 @@ public final class MessageFormats {
       "verySnapshot.UnconfirmedDelivery\032c\n\023Unco" +
       "nfirmedDelivery\022\022\n\ndeliveryId\030\001 \002(\003\022\023\n\013d" +
       "estination\030\002 \002(\t\022#\n\007payload\030\003 \002(\0132\022.Pers" +
-      "istentPayload\"F\n\032PersistentStateChangeEv" +
+      "istentPayload\"\\\n\032PersistentStateChangeEv" +
       "ent\022\027\n\017stateIdentifier\030\001 \002(\t\022\017\n\007timeout\030" +
-      "\002 \001(\t\"c\n\025PersistentFSMSnapshot\022\027\n\017stateI" +
-      "dentifier\030\001 \002(\t\022 \n\004data\030\002 \002(\0132\022.Persiste" +
-      "ntPayload\022\017\n\007timeout\030\003 \001(\tB\"\n\036akka.persi" +
-      "stence.serializationH\001"
+      "\002 \001(\t\022\024\n\014timeoutNanos\030\003 \001(\003\"h\n\025Persisten" +
+      "tFSMSnapshot\022\027\n\017stateIdentifier\030\001 \002(\t\022 \n" +
+      "\004data\030\002 \002(\0132\022.PersistentPayload\022\024\n\014timeo" +
+      "utNanos\030\003 \001(\003B\"\n\036akka.persistence.serial",
+      "izationH\001"
     };
     akka.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new akka.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5844,13 +5851,13 @@ public final class MessageFormats {
           internal_static_PersistentStateChangeEvent_fieldAccessorTable = new
             akka.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_PersistentStateChangeEvent_descriptor,
-              new java.lang.String[] { "StateIdentifier", "Timeout", });
+              new java.lang.String[] { "StateIdentifier", "Timeout", "TimeoutNanos", });
           internal_static_PersistentFSMSnapshot_descriptor =
             getDescriptor().getMessageTypes().get(5);
           internal_static_PersistentFSMSnapshot_fieldAccessorTable = new
             akka.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_PersistentFSMSnapshot_descriptor,
-              new java.lang.String[] { "StateIdentifier", "Data", "Timeout", });
+              new java.lang.String[] { "StateIdentifier", "Data", "TimeoutNanos", });
           return null;
         }
       };

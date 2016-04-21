@@ -97,7 +97,7 @@ class MessageSerializer(val system: ExtendedActorSystem) extends BaseSerializer 
     val builder = mf.PersistentStateChangeEvent.newBuilder.setStateIdentifier(stateChange.stateIdentifier)
     stateChange.timeout match {
       case None          ⇒ builder
-      case Some(timeout) ⇒ builder.setTimeout(timeout.toString())
+      case Some(timeout) ⇒ builder.setTimeoutNanos(timeout.toNanos)
     }
   }
 
@@ -107,7 +107,7 @@ class MessageSerializer(val system: ExtendedActorSystem) extends BaseSerializer 
       .setData(persistentPayloadBuilder(persistentFSMSnapshot.data.asInstanceOf[AnyRef]))
     persistentFSMSnapshot.timeout match {
       case None          ⇒ builder
-      case Some(timeout) ⇒ builder.setTimeout(timeout.toString())
+      case Some(timeout) ⇒ builder.setTimeoutNanos(timeout.toNanos)
     }
   }
 
@@ -127,14 +127,17 @@ class MessageSerializer(val system: ExtendedActorSystem) extends BaseSerializer 
   def stateChange(persistentStateChange: mf.PersistentStateChangeEvent): StateChangeEvent = {
     StateChangeEvent(
       persistentStateChange.getStateIdentifier,
-      if (persistentStateChange.hasTimeout) Some(Duration(persistentStateChange.getTimeout).asInstanceOf[duration.FiniteDuration]) else None)
+      // timeout field is deprecated, left for backward compatibility. timeoutNanos is used instead.
+      if (persistentStateChange.hasTimeoutNanos) Some(Duration.fromNanos(persistentStateChange.getTimeoutNanos))
+      else if (persistentStateChange.hasTimeout) Some(Duration(persistentStateChange.getTimeout).asInstanceOf[duration.FiniteDuration])
+      else None)
   }
 
   def persistentFSMSnapshot(persistentFSMSnapshot: mf.PersistentFSMSnapshot): PersistentFSMSnapshot[Any] = {
     PersistentFSMSnapshot(
       persistentFSMSnapshot.getStateIdentifier,
       payload(persistentFSMSnapshot.getData),
-      if (persistentFSMSnapshot.hasTimeout) Some(Duration(persistentFSMSnapshot.getTimeout).asInstanceOf[duration.FiniteDuration]) else None)
+      if (persistentFSMSnapshot.hasTimeoutNanos) Some(Duration.fromNanos(persistentFSMSnapshot.getTimeoutNanos)) else None)
   }
 
   private def atomicWriteBuilder(a: AtomicWrite) = {
