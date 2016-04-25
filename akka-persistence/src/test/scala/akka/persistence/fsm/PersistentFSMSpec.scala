@@ -428,18 +428,24 @@ object PersistentFSMSpec {
       case Event(AddItem(item), _) ⇒
         stay applying ItemAdded(item) forMax (1 seconds)
       case Event(Buy, _) ⇒
+        //#customer-andthen-example
         goto(Paid) applying OrderExecuted andThen {
           case NonEmptyShoppingCart(items) ⇒
             reportActor ! PurchaseWasMade(items)
+            //#customer-andthen-example
             saveStateSnapshot()
           case EmptyShoppingCart ⇒ saveStateSnapshot()
+          //#customer-andthen-example
         }
+      //#customer-andthen-example
       case Event(Leave, _) ⇒
+        //#customer-snapshot-example
         stop applying OrderDiscarded andThen {
           case _ ⇒
             reportActor ! ShoppingCardDiscarded
             saveStateSnapshot()
         }
+        //#customer-snapshot-example
       case Event(GetCurrentCart, data) ⇒
         stay replying data
       case Event(StateTimeout, _) ⇒

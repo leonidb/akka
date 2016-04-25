@@ -533,15 +533,17 @@ public class AbstractPersistentFSMTest {
                 .event(Buy.class,
                     (event, data) ->
                         goTo(UserState.PAID).applying(OrderExecuted.INSTANCE)
-                            .andThen(exec(cart ->
-                                reportActor.tell(new PurchaseWasMade(cart.getItems()), self()))
-                            ))
+                            .andThen(exec(cart -> {
+                                reportActor.tell(new PurchaseWasMade(cart.getItems()), self());
+                                saveStateSnapshot();
+                            })))
                 .event(Leave.class,
                     (event, data) ->
                         stop().applying(OrderDiscarded.INSTANCE)
-                            .andThen(exec(cart ->
-                               reportActor.tell(ShoppingCardDiscarded.INSTANCE, self())
-                            )))
+                            .andThen(exec(cart -> {
+                                reportActor.tell(ShoppingCardDiscarded.INSTANCE, self());
+                                saveStateSnapshot();
+                            })))
                 .event(GetCurrentCart.class, (event, data) -> stay().replying(data))
                 .event(StateTimeout$.class,
                     (event, data) ->
